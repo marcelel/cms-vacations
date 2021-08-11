@@ -1,5 +1,6 @@
-package com.cms.vacations
+package com.cms.vacations.messages
 
+import com.cms.vacations.User
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import java.time.LocalDate
@@ -10,19 +11,6 @@ object GetUserQuery : VacationMessage()
 
 data class CreateUserCommand(val vacationDaysLeft: Int) : VacationMessage()
 
-data class UserAlreadyExists(val userId: String) : VacationMessage()
-
-data class UserNotFound(val userId: String) : VacationMessage()
-
-data class VacationRejected(val userId: String, val reason: String) : VacationMessage()
-
-data class VacationSubmitted(
-    val userId: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate,
-    val vacationDays: Int
-) : VacationMessage()
-
 data class GetUserQueryResult(val user: User?) : VacationMessage()
 
 data class CreateVacationsCommand(
@@ -32,6 +20,4 @@ data class CreateVacationsCommand(
     val endDate: LocalDate
 ) : VacationMessage()
 
-data class DeleteVacationsCommand(val userId: String, val vacationsId: String) : VacationMessage()
-
-data class VacationsNotFound(val vacationsId: String) : VacationMessage()
+data class DeleteVacationsCommand(val vacationsId: String) : VacationMessage()

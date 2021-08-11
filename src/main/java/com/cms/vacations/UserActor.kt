@@ -4,6 +4,21 @@ import akka.Done
 import akka.actor.AbstractActorWithStash
 import akka.actor.Props
 import akka.pattern.Patterns.pipe
+import com.cms.vacations.messages.AddVacationRejectedResult
+import com.cms.vacations.messages.AddVacationResult
+import com.cms.vacations.messages.AddVacationSubmittedResult
+import com.cms.vacations.messages.AddVacationUserNotFoundResult
+import com.cms.vacations.messages.CreateUserCommand
+import com.cms.vacations.messages.CreateVacationsCommand
+import com.cms.vacations.messages.DeleteVacationsCommand
+import com.cms.vacations.messages.DeleteVacationsDeletedResult
+import com.cms.vacations.messages.DeleteVacationsResult
+import com.cms.vacations.messages.DeleteVacationsUserNotFoundResult
+import com.cms.vacations.messages.DeleteVacationsVacationsNotFoundResult
+import com.cms.vacations.messages.GetUserQuery
+import com.cms.vacations.messages.GetUserQueryResult
+import com.cms.vacations.messages.UserAlreadyExists
+import com.cms.vacations.messages.UserCreated
 import com.cms.vacations.utils.format
 import java.time.LocalDateTime
 import java.util.*
@@ -73,6 +88,7 @@ class UserActor private constructor(
             .match(GetUserQuery::class.java, this::handle)
             .match(CreateUserCommand::class.java, this::handle)
             .match(CreateVacationsCommand::class.java, this::handle)
+            .match(DeleteVacationsCommand::class.java, this::handle)
             .build()
     }
 
@@ -88,66 +104,85 @@ class UserActor private constructor(
 
         user = User(userId, command.vacationDaysLeft, 0)
         val result = userRepository.save(user!!)
-        pipe(result, context.dispatcher).to(sender) //todo: validate that Done works
+            .thenApply { UserCreated(userId) }
+        pipe(result, context.dispatcher).to(sender)
     }
 
     private fun handle(command: CreateVacationsCommand) {
         if (user == null) {
-            sender.tell(UserNotFound(userId), self)
+            sender.tell(AddVacationUserNotFoundResult(userId), self)
             return
         }
 
         val vacationDays = vacationDaysCalculator.calculate(command.startDate, command.endDate)
         if (user!!.vacationDaysLeft < vacationDays) {
             val reason = "Insufficient days left: ${user!!.vacationDaysLeft}, required: $vacationDays"
-            sender.tell(VacationRejected(userId, reason), self)
+            sender.tell(AddVacationRejectedResult(userId, reason), self)
             return
         }
 
         val result = eventService.canUserTakeVacations(user!!, command.startDate, command.endDate)
-            .thenCompose {
-                if (!it) {
+            .thenCompose { userCanTakeVacations ->
+                if (!userCanTakeVacations) {
                     val reason = "Important events in specified period"
-                    CompletableFuture.completedFuture<VacationMessage>(VacationRejected(userId, reason))
+                    CompletableFuture.completedFuture<AddVacationResult>(AddVacationRejectedResult(userId, reason))
                 } else {
-                    addVacation(command).thenCompose { updateUser(vacationDays) }
-                        .thenCompose { publishActivity(command) }
-                        .thenApply<VacationMessage> {
-                            VacationSubmitted(userId, command.startDate, command.endDate, vacationDays)
-                        }
+                    eventService.createVacations(user!!, command.startDate, command.endDate)
+                        .thenCompose { addVacation(command, it, vacationDays) }
+                        .thenCompose { vacation -> updateUser(vacationDays).thenApply { vacation } }
+                        .thenCompose { vacation -> publishActivity("Vacations from ${command.startDate.format()} to ${command.endDate.format()}").thenApply { vacation } }
+                        .thenApply<AddVacationResult> { vacation -> AddVacationSubmittedResult(userId, vacation._id) }
                 }
             }
 
-        pipe(result, context.dispatcher).to(sender) //todo: validate that Done works
+        pipe(result, context.dispatcher).to(sender)
     }
 
     private fun handle(command: DeleteVacationsCommand) {
         if (user == null) {
-            sender.tell(UserNotFound(userId), self)
+            sender.tell(DeleteVacationsUserNotFoundResult(userId), self)
             return
         }
 
         val vacation = vacations.find { it._id == command.vacationsId }
         if (vacation == null) {
-            sender.tell(VacationsNotFound(command.vacationsId), self)
+            sender.tell(DeleteVacationsVacationsNotFoundResult(command.vacationsId), self)
             return
         }
 
         vacations.remove(vacation)
-        val result = vacationRepository.delete(vacation)
-        pipe(result, context.dispatcher).to(sender) //todo: validate that Done works
+        user = user!!.copy(
+            vacationDaysLeft = user!!.vacationDaysLeft + vacation.vacationDays,
+            vacationDaysTaken = user!!.vacationDaysTaken - vacation.vacationDays
+        )
+
+        val result = eventService.deleteVacations(vacation.eventId)
+            .thenCompose { vacationRepository.delete(vacation) }
+            .thenCompose { userRepository.update(user!!) }
+            .thenCompose {
+                val activityMessage = "Vacations from ${vacation.start.format()} to ${vacation.end.format()}"
+                publishActivity(activityMessage).thenApply { vacation }
+            }
+            .thenApply<DeleteVacationsResult> { DeleteVacationsDeletedResult(vacation._id) }
+
+        pipe(result, context.dispatcher).to(sender)
     }
 
-    private fun addVacation(command: CreateVacationsCommand): CompletableFuture<Done> {
+    private fun addVacation(
+        command: CreateVacationsCommand,
+        eventId: String,
+        vacationDays: Int
+    ): CompletableFuture<Vacation> {
         val vacation = Vacation(
             _id = UUID.randomUUID().toString(),
             userId = userId,
+            eventId = eventId,
             start = command.startDate,
             end = command.endDate,
-            vacationDays = user!!.vacationDaysTaken
+            vacationDays = vacationDays
         )
         vacations.add(vacation)
-        return vacationRepository.save(vacation)
+        return vacationRepository.save(vacation).thenApply { vacation }
     }
 
     private fun updateUser(vacationDays: Int): CompletableFuture<Done> {
@@ -158,11 +193,11 @@ class UserActor private constructor(
         return userRepository.update(user!!)
     }
 
-    private fun publishActivity(command: CreateVacationsCommand): CompletableFuture<Done> {
+    private fun publishActivity(message: String): CompletableFuture<Done> {
         val activity = Activity(
             userId,
             LocalDateTime.now(),
-            "Vacations from ${command.startDate.format()} to ${command.endDate.format()}"
+            message
         )
         return activityService.publish(activity)
     }

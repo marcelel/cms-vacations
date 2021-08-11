@@ -8,7 +8,6 @@ import akka.stream.alpakka.mongodb.javadsl.MongoSource
 import akka.stream.javadsl.Sink
 import akka.stream.javadsl.Source
 import com.cms.vacations.JsonSerializerFactory
-import com.fasterxml.jackson.core.type.TypeReference
 import com.mongodb.client.model.Filters
 import com.mongodb.reactivestreams.client.MongoDatabase
 import org.bson.Document
@@ -23,6 +22,7 @@ class MongoDataStore<T>(
 
     private val ID_FIELD = "_id"
     private val objectMapper = JsonSerializerFactory.jsonSerializer().objectMapper
+    private val listClass = objectMapper.typeFactory.constructCollectionType(List::class.java, clazz)
 
     fun find(id: String): CompletableFuture<T?> {
         val collection = mongoDatabase.getCollection(collectionName)
@@ -40,10 +40,9 @@ class MongoDataStore<T>(
         fields.forEach { document.append(it.key, it.value) }
         val publisher = collection.find(document)
         val source = MongoSource.create(publisher)
-        val typeReference = object : TypeReference<List<T>>() {}
         return source.runWith(Sink.seq(), system)
             .toCompletableFuture()
-            .thenApply { if (it != null) objectMapper.convertValue(it, typeReference) else emptyList() }
+            .thenApply<List<T>> { if (it != null) objectMapper.convertValue(it, listClass) else emptyList() }
     }
 
     fun save(entity: T): CompletableFuture<Done> {

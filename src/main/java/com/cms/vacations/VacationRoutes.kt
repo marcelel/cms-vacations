@@ -7,16 +7,30 @@ import akka.http.javadsl.model.HttpHeader
 import akka.http.javadsl.model.HttpResponse
 import akka.http.javadsl.model.StatusCodes
 import akka.http.javadsl.server.AllDirectives
-import akka.http.javadsl.server.PathMatchers
+import akka.http.javadsl.server.PathMatchers.segment
 import akka.http.javadsl.server.Route
 import akka.http.javadsl.unmarshalling.Unmarshaller
-import com.fasterxml.jackson.core.JsonProcessingException
+import akka.pattern.Patterns.ask
+import com.cms.vacations.messages.AddVacationRejectedResult
+import com.cms.vacations.messages.AddVacationResult
+import com.cms.vacations.messages.AddVacationSubmittedResult
+import com.cms.vacations.messages.AddVacationUserNotFoundResult
+import com.cms.vacations.messages.CreateUserCommand
+import com.cms.vacations.messages.CreateVacationsCommand
+import com.cms.vacations.messages.DeleteVacationsCommand
+import com.cms.vacations.messages.DeleteVacationsDeletedResult
+import com.cms.vacations.messages.DeleteVacationsResult
+import com.cms.vacations.messages.DeleteVacationsUserNotFoundResult
+import com.cms.vacations.messages.DeleteVacationsVacationsNotFoundResult
+import com.cms.vacations.messages.UserCreated
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import java.time.Duration
 
 class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives() {
 
+    private val timeout = Duration.ofSeconds(5)
     private val objectMapper = getObjectMapper()
     private val createVacationCommandUnmarshaller: Unmarshaller<HttpEntity, CreateVacationsCommand> =
         Jackson.unmarshaller(JsonSerializerFactory.jsonSerializer().objectMapper, CreateVacationsCommand::class.java)
@@ -34,11 +48,23 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
                             post { createUser() }
                         },
                         pathPrefix(
-                            PathMatchers.segment()
-                        ) {
-                            pathEnd {
-                                post { addVacations(it) }
-                            }
+                            segment()
+                        ) { userId ->
+                            concat(
+                                pathPrefix("vacations") {
+                                    concat(
+                                        pathEnd {
+                                            post { addVacations(userId) }
+                                        },
+                                        pathPrefix(
+                                            segment()
+                                        ) { vacationId ->
+                                            pathEnd {
+                                                delete { deleteVacations(userId, vacationId) }
+                                            }
+                                        }
+                                    )
+                                })
                         }
                     )
                 }
@@ -47,42 +73,59 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
     }
 
     private fun createUser(): Route {
-        return entity(createUserCommandUnmarshaller) {
-            userActorSupervisor.tell(UserActorSupervisor.Message(vacationMessage = it), ActorRef.noSender())
-            complete(
-                HttpResponse.create()
-                    .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-                    .withStatus(StatusCodes.CREATED)
-            )
+        return entity(createUserCommandUnmarshaller) { entity ->
+            val result = ask(userActorSupervisor, UserActorSupervisor.Message(vacationMessage = entity), timeout)
+                .thenApply { it as UserCreated }
+                .thenApply { created(it.userId) }
+                .thenApply { complete(it) }
+            onComplete(result) { it.get() }
         }
     }
 
     private fun addVacations(username: String): Route {
-        return entity(createVacationCommandUnmarshaller) {
-            userActorSupervisor.tell(UserActorSupervisor.Message(username, it), ActorRef.noSender())
-            complete(
-                HttpResponse.create()
-                    .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-                    .withStatus(StatusCodes.CREATED)
-            )
+        return entity(createVacationCommandUnmarshaller) { entity ->
+            val result = ask(userActorSupervisor, UserActorSupervisor.Message(username, entity), timeout)
+                .thenApply { it as AddVacationResult }
+                .thenApply {
+                    when (it) {
+                        is AddVacationUserNotFoundResult -> badRequest("User ${it.userId} not found")
+                        is AddVacationRejectedResult -> badRequest(it.reason)
+                        is AddVacationSubmittedResult -> created(it.vacationsId)
+                    }
+                }.thenApply { complete(it) }
+            onComplete(result) { it.get() }
         }
     }
 
-    private fun getAllVacations(username: String): Route {
-        return try {
-            complete(HttpResponse.create()
-                    .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-                    .withEntity("[]"))
-        } catch (e: JsonProcessingException) {
-            complete("[]")
-        }
-    }
-
-    private fun getDaysOffLeft(username: String): Route {
-        return complete(HttpResponse.create()
-                .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-                .withEntity("20")
+    private fun deleteVacations(userId: String, vacationsId: String): Route {
+        val result = ask(
+            userActorSupervisor,
+            UserActorSupervisor.Message(userId, DeleteVacationsCommand(vacationsId)),
+            timeout
         )
+            .thenApply { it as DeleteVacationsResult }
+            .thenApply {
+                when (it) {
+                    is DeleteVacationsUserNotFoundResult -> badRequest("User ${it.userId} not found")
+                    is DeleteVacationsVacationsNotFoundResult -> badRequest("Vacation ${it.vacationsId} not found")
+                    is DeleteVacationsDeletedResult -> HttpResponse.create()
+                }
+            }.thenApply { complete(it) }
+        return onComplete(result) { it.get() }
+    }
+
+    private fun badRequest(message: String): HttpResponse {
+        return HttpResponse.create()
+            .withStatus(StatusCodes.BAD_REQUEST)
+            .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
+            .withEntity(message)
+    }
+
+    private fun created(message: String): HttpResponse {
+        return HttpResponse.create()
+            .withStatus(StatusCodes.CREATED)
+            .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
+            .withEntity(message)
     }
 
     private fun getObjectMapper(): ObjectMapper {

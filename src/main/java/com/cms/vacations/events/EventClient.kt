@@ -1,5 +1,6 @@
 package com.cms.vacations.events
 
+import akka.Done
 import akka.actor.ActorSystem
 import akka.http.javadsl.Http
 import akka.http.javadsl.marshallers.jackson.Jackson
@@ -14,8 +15,36 @@ import java.util.concurrent.CompletableFuture
 
 class EventClient(private val system: ActorSystem, private val http: Http, private val eventsUrl: String) {
 
+    private val objectMapper = JsonSerializerFactory.jsonSerializer().objectMapper
     private val eventUnmarshaller: Unmarshaller<HttpEntity, EventResponse> =
-        Jackson.unmarshaller(JsonSerializerFactory.jsonSerializer().objectMapper, EventResponse::class.java)
+        Jackson.unmarshaller(objectMapper, EventResponse::class.java)
+
+    fun createEvent(command: CreateEventCommand): CompletableFuture<String> {
+        val json = objectMapper.writeValueAsString(command)
+        val request = HttpRequest.POST("$eventsUrl/events").withEntity(json)
+        return http.singleRequest(request)
+            .toCompletableFuture()
+            .thenCompose { response ->
+                if (response.status() == StatusCodes.CREATED) {
+                    Unmarshaller.entityToString().unmarshal(response.entity(), system)
+                } else {
+                    throw IllegalStateException("Unexpected events response code ${response.status()}")
+                }
+            }
+    }
+
+    fun deleteEvent(eventId: String): CompletableFuture<Done> {
+        val request = HttpRequest.DELETE("$eventsUrl/events/$eventId")
+        return http.singleRequest(request)
+            .toCompletableFuture()
+            .thenApply { response ->
+                if (response.status() == StatusCodes.OK) {
+                    Done.done()
+                } else {
+                    throw IllegalStateException("Unexpected events response code ${response.status()}")
+                }
+            }
+    }
 
     fun getUserEvents(userId: String, from: LocalDate, to: LocalDate): CompletableFuture<List<Event>> {
         val fromFormatted = from.format()

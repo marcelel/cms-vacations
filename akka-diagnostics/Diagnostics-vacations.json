@@ -1,12 +1,12 @@
 {
-  "start-time" : "2021-08-10T22:10:27.889",
+  "start-time" : "2021-08-11T21:13:31.500",
   "akka-version" : "2.6.15",
   "classpath" : "/Users/mlekston/IdeaProjects/cms/vacations/target/vacations-1.0-SNAPSHOT-allinone.jar",
   "configuration-warnings" : [],
   "system-metrics" : {
     "heap-init" : 268435456,
     "heap-max" : 4294967296,
-    "heap-used" : 102988784,
+    "heap-used" : 92873024,
     "heap-committed" : 268435456,
     "os-processors" : 12,
     "mem-pool-0" : {
@@ -14,7 +14,7 @@
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 5836800,
-      "used" : 1314048,
+      "used" : 1299968,
       "committed" : 2555904
     },
     "mem-pool-1" : {
@@ -22,40 +22,40 @@
       "type" : "Non-heap memory",
       "init" : 0,
       "max" : -1,
-      "used" : 54384936,
-      "committed" : 56016896
+      "used" : 51056616,
+      "committed" : 52609024
     },
     "mem-pool-2" : {
       "name" : "CodeHeap 'profiled nmethods'",
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 122908672,
-      "used" : 6352640,
-      "committed" : 6356992
+      "used" : 5777920,
+      "committed" : 5832704
     },
     "mem-pool-3" : {
       "name" : "Compressed Class Space",
       "type" : "Non-heap memory",
       "init" : 0,
       "max" : 1073741824,
-      "used" : 6468064,
-      "committed" : 7340032
+      "used" : 6081752,
+      "committed" : 6815744
     },
     "mem-pool-4" : {
       "name" : "G1 Eden Space",
       "type" : "Heap memory",
       "init" : 27262976,
       "max" : -1,
-      "used" : 92274688,
-      "committed" : 116391936
+      "used" : 82837504,
+      "committed" : 161480704
     },
     "mem-pool-5" : {
       "name" : "G1 Old Gen",
       "type" : "Heap memory",
       "init" : 241172480,
       "max" : 4294967296,
-      "used" : 3374064,
-      "committed" : 144703488
+      "used" : 3744064,
+      "committed" : 99614720
     },
     "mem-pool-6" : {
       "name" : "G1 Survivor Space",
@@ -70,7 +70,7 @@
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 122912768,
-      "used" : 1402112,
+      "used" : 1228288,
       "committed" : 2555904
     }
   },
