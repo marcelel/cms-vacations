@@ -2,10 +2,13 @@ package com.cms.vacations;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.cluster.sharding.ClusterSharding;
+import akka.cluster.sharding.ClusterShardingSettings;
 import akka.http.javadsl.Http;
 import com.cms.vacations.activities.ActivitiesKafkaService;
 import com.cms.vacations.activities.KafkaProducerSettingsFactory;
 import com.cms.vacations.events.EventDummyService;
+import com.cms.vacations.messages.VacationShardingMessageExtractor;
 import com.cms.vacations.mongo.MongoConfiguration;
 import com.cms.vacations.mongo.MongoDataStore;
 import com.mongodb.reactivestreams.client.MongoDatabase;
@@ -45,30 +48,43 @@ class Main {
     }
 
     private static void initializeActorSystem() {
-        system = ActorSystem.create("vacations");
+        system = ActorSystem.create("Vacations");
     }
 
     private static void initializeHttpServer() {
         MongoConfiguration mongoConfiguration = new MongoConfiguration();
         MongoDatabase mongoDatabase = mongoConfiguration.create();
+
         MongoDataStore<Vacation> vacationsDataStore =
                 new MongoDataStore<>(system, "vacations", mongoDatabase, Vacation.class);
-        VacationMongoRepository vacationMongoRepository = new VacationMongoRepository(vacationsDataStore);
+        VacationMongoRepository vacationRepository = new VacationMongoRepository(vacationsDataStore);
+
         MongoDataStore<User> usersDataStore =
                 new MongoDataStore<>(system, "users", mongoDatabase, User.class);
-        UserMongoRepository userMongoRepository = new UserMongoRepository(usersDataStore);
-        EventDummyService eventDummyService = new EventDummyService();
-        ActivitiesKafkaService activitiesKafkaService = new ActivitiesKafkaService(system, new KafkaProducerSettingsFactory(system).create(), "activities");
-        ActorRef userActorSupervisor = system.actorOf(UserActorSupervisor.create(userMongoRepository,
-                vacationMongoRepository, eventDummyService, activitiesKafkaService, new VacationDaysCalculator(List.of())));
+        UserMongoRepository userRepository = new UserMongoRepository(usersDataStore);
+
+        EventDummyService eventService = new EventDummyService();
+
+        ActivitiesKafkaService activityService = new ActivitiesKafkaService(system, new KafkaProducerSettingsFactory(system).create(), "activities");
+
+        VacationDaysCalculator vacationDaysCalculator = new VacationDaysCalculator(List.of());
+
+        ActorRef userActorSupervisor = ClusterSharding.get(system).start(
+                "vacationShardedActor",
+                UserActor.create(
+                        userRepository, vacationRepository, eventService, activityService, vacationDaysCalculator
+                ),
+                ClusterShardingSettings.create(system),
+                new VacationShardingMessageExtractor(30)
+        );
         VacationRoutes routes = new VacationRoutes(userActorSupervisor);
 
         int httpPort = system.settings()
-            .config()
-            .getInt("akka.http.server.default-http-port");
+                .config()
+                .getInt("akka.http.server.default-http-port");
 
         Http.get(system)
-            .newServerAt("localhost", httpPort)
-            .bind(routes.createRoutes());
+                .newServerAt("localhost", httpPort)
+                .bind(routes.createRoutes());
     }
 }

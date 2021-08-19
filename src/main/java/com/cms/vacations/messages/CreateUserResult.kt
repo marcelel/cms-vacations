@@ -1,6 +1,8 @@
 package com.cms.vacations.messages
 
-sealed class CreateUserResult
+import com.cms.vacations.SerializableMessage
+
+sealed class CreateUserResult : SerializableMessage
 
 data class UserAlreadyExists(val userId: String) : CreateUserResult()
 

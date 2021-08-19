@@ -1,11 +1,12 @@
 package com.cms.vacations.messages
 
+import com.cms.vacations.SerializableMessage
 import com.cms.vacations.User
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import java.time.LocalDate
 
-sealed class VacationMessage
+sealed class VacationMessage : SerializableMessage
 
 object GetUserQuery : VacationMessage()
 

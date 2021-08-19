@@ -54,6 +54,7 @@ class UserActor private constructor(
 
     override fun preStart() {
         super.preStart()
+//        val initialized = CompletableFuture.completedFuture(Initialized(null, null))
         val initialized = userRepository.findOne(userId)
             .thenCompose { user ->
                 if (user == null) {
@@ -103,6 +104,7 @@ class UserActor private constructor(
         }
 
         user = User(userId, command.vacationDaysLeft, 0)
+//        val result = CompletableFuture.completedFuture(UserCreated(userId))
         val result = userRepository.save(user!!)
             .thenApply { UserCreated(userId) }
         pipe(result, context.dispatcher).to(sender)

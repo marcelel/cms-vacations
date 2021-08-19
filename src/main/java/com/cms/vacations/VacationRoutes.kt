@@ -22,6 +22,7 @@ import com.cms.vacations.messages.DeleteVacationsDeletedResult
 import com.cms.vacations.messages.DeleteVacationsResult
 import com.cms.vacations.messages.DeleteVacationsUserNotFoundResult
 import com.cms.vacations.messages.DeleteVacationsVacationsNotFoundResult
+import com.cms.vacations.messages.MessageEnvelope
 import com.cms.vacations.messages.UserCreated
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -74,7 +75,7 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
 
     private fun createUser(): Route {
         return entity(createUserCommandUnmarshaller) { entity ->
-            val result = ask(userActorSupervisor, UserActorSupervisor.Message(vacationMessage = entity), timeout)
+            val result = ask(userActorSupervisor, MessageEnvelope(entity), timeout)
                 .thenApply { it as UserCreated }
                 .thenApply { created(it.userId) }
                 .thenApply { complete(it) }
@@ -84,7 +85,7 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
 
     private fun addVacations(username: String): Route {
         return entity(createVacationCommandUnmarshaller) { entity ->
-            val result = ask(userActorSupervisor, UserActorSupervisor.Message(username, entity), timeout)
+            val result = ask(userActorSupervisor, MessageEnvelope(entity, username), timeout)
                 .thenApply { it as AddVacationResult }
                 .thenApply {
                     when (it) {
@@ -100,7 +101,7 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
     private fun deleteVacations(userId: String, vacationsId: String): Route {
         val result = ask(
             userActorSupervisor,
-            UserActorSupervisor.Message(userId, DeleteVacationsCommand(vacationsId)),
+            MessageEnvelope(DeleteVacationsCommand(vacationsId), userId),
             timeout
         )
             .thenApply { it as DeleteVacationsResult }

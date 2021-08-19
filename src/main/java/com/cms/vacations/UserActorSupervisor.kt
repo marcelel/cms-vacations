@@ -4,6 +4,7 @@ import akka.actor.AbstractActor
 import akka.actor.ActorRef
 import akka.actor.Props
 import akka.japi.pf.ReceiveBuilder
+import com.cms.vacations.messages.MessageEnvelope
 import com.cms.vacations.messages.VacationMessage
 import java.util.*
 
@@ -35,17 +36,18 @@ class UserActorSupervisor(
 
     override fun createReceive(): Receive {
         return ReceiveBuilder.create()
-            .match(Message::class.java, this::handle)
+            .match(MessageEnvelope::class.java, this::handle)
             .build()
     }
 
-    data class Message(val to: String = UUID.randomUUID().toString(), val vacationMessage: VacationMessage)
+    data class Message(val to: String = UUID.randomUUID().toString(), val vacationMessage: VacationMessage) :
+        SerializableMessage
 
-    private fun handle(message: Message) {
+    private fun handle(message: MessageEnvelope) {
         val loyaltyActor = context
             .child(message.to)
             .getOrElse { createActor(message.to) }
-        loyaltyActor.forward(message.vacationMessage, context)
+        loyaltyActor.forward(message.message, context)
     }
 
     private fun createActor(id: String): ActorRef {

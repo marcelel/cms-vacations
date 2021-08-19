@@ -1,6 +1,8 @@
 package com.cms.vacations.messages
 
-sealed class DeleteVacationsResult
+import com.cms.vacations.SerializableMessage
+
+sealed class DeleteVacationsResult : SerializableMessage
 
 data class DeleteVacationsUserNotFoundResult(val userId: String) : DeleteVacationsResult()
 

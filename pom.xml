@@ -18,7 +18,7 @@
         <akka-http-version>10.2.2</akka-http-version>
         <akka-management-version>1.0.9</akka-management-version>
         <akka-enhancements-version>1.1.16</akka-enhancements-version>
-        <cinnamon-version>2.15.0</cinnamon-version>
+        <cinnamon-version>2.16.1</cinnamon-version>
         <junit-version>5.7.0</junit-version>
         <junit-platform-version>1.7.0</junit-platform-version>
         <logback-version>1.2.3</logback-version>
