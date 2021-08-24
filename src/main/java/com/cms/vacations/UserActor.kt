@@ -17,6 +17,9 @@ import com.cms.vacations.messages.DeleteVacationsUserNotFoundResult
 import com.cms.vacations.messages.DeleteVacationsVacationsNotFoundResult
 import com.cms.vacations.messages.GetUserQuery
 import com.cms.vacations.messages.GetUserQueryResult
+import com.cms.vacations.messages.GetVacationsFoundResult
+import com.cms.vacations.messages.GetVacationsQuery
+import com.cms.vacations.messages.GetVacationsUserNotFoundResult
 import com.cms.vacations.messages.UserAlreadyExists
 import com.cms.vacations.messages.UserCreated
 import com.cms.vacations.utils.format
@@ -90,6 +93,7 @@ class UserActor private constructor(
             .match(CreateUserCommand::class.java, this::handle)
             .match(CreateVacationsCommand::class.java, this::handle)
             .match(DeleteVacationsCommand::class.java, this::handle)
+            .match(GetVacationsQuery::class.java, this::handle)
             .build()
     }
 
@@ -168,6 +172,15 @@ class UserActor private constructor(
             .thenApply<DeleteVacationsResult> { DeleteVacationsDeletedResult(vacation._id) }
 
         pipe(result, context.dispatcher).to(sender)
+    }
+
+    private fun handle(query: GetVacationsQuery) {
+        if (user == null) {
+            sender.tell(GetVacationsUserNotFoundResult(userId), self)
+            return
+        }
+
+        sender.tell(GetVacationsFoundResult(userId, vacations), self)
     }
 
     private fun addVacation(

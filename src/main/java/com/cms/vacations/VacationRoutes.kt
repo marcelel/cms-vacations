@@ -23,6 +23,10 @@ import com.cms.vacations.messages.DeleteVacationsDeletedResult
 import com.cms.vacations.messages.DeleteVacationsResult
 import com.cms.vacations.messages.DeleteVacationsUserNotFoundResult
 import com.cms.vacations.messages.DeleteVacationsVacationsNotFoundResult
+import com.cms.vacations.messages.GetVacationsFoundResult
+import com.cms.vacations.messages.GetVacationsQuery
+import com.cms.vacations.messages.GetVacationsResult
+import com.cms.vacations.messages.GetVacationsUserNotFoundResult
 import com.cms.vacations.messages.MessageEnvelope
 import com.cms.vacations.messages.UserCreated
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -57,6 +61,9 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
                                     concat(
                                         pathEnd {
                                             post { addVacations(userId) }
+                                        },
+                                        pathEnd {
+                                            get { getVacations(userId) }
                                         },
                                         pathPrefix(
                                             segment()
@@ -99,6 +106,19 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
         }
     }
 
+    private fun getVacations(username: String): Route {
+        val message = MessageEnvelope(GetVacationsQuery, username)
+        val result = ask(userActorSupervisor, message, timeout).thenApply { it as GetVacationsResult }
+            .thenApply {
+                when (it) {
+                    is GetVacationsUserNotFoundResult -> badRequest("User ${it.userId} not found")
+                    is GetVacationsFoundResult -> ok(objectMapper.writeValueAsString(it))
+                }
+            }
+            .thenApply { complete(it) }
+        return onComplete(result) { it.get() }
+    }
+
     private fun deleteVacations(userId: String, vacationsId: String): Route {
         val result = ask(
             userActorSupervisor,
@@ -110,8 +130,7 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
                 when (it) {
                     is DeleteVacationsUserNotFoundResult -> badRequest("User ${it.userId} not found")
                     is DeleteVacationsVacationsNotFoundResult -> badRequest("Vacation ${it.vacationsId} not found")
-                    is DeleteVacationsDeletedResult -> HttpResponse.create()
-                        .addHeader(HttpHeader.parse("Content-Type", "application/json"))
+                    is DeleteVacationsDeletedResult -> deleted()
                 }
             }.thenApply { complete(it) }
         return onComplete(result) { it.get() }
@@ -131,6 +150,21 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
             .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
             .addHeader(HttpHeader.parse("Content-Type", "application/json"))
             .withEntity(ContentTypes.APPLICATION_JSON, message)
+    }
+
+    private fun ok(message: String): HttpResponse {
+        return HttpResponse.create()
+            .withStatus(StatusCodes.OK)
+            .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
+            .addHeader(HttpHeader.parse("Content-Type", "application/json"))
+            .withEntity(ContentTypes.APPLICATION_JSON, message)
+    }
+
+    private fun deleted(): HttpResponse {
+        return HttpResponse.create()
+            .withStatus(StatusCodes.NO_CONTENT)
+            .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
+            .addHeader(HttpHeader.parse("Content-Type", "application/json"))
     }
 
     private fun getObjectMapper(): ObjectMapper {

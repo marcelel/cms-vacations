@@ -22,3 +22,5 @@ data class CreateVacationsCommand(
 ) : VacationMessage()
 
 data class DeleteVacationsCommand(val vacationsId: String) : VacationMessage()
+
+object GetVacationsQuery : VacationMessage()

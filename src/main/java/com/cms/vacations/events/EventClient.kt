@@ -26,7 +26,6 @@ class EventClient(private val system: ActorSystem, private val http: Http, priva
         val json = objectMapper.writeValueAsString(command)
         val request = HttpRequest.POST("$eventsUrl/events/users/${command.author}/events")
             .withEntity(ContentTypes.APPLICATION_JSON, json)
-//            .withHeaders(setOf(HttpHeader.parse("Content-Type", "application/json")))
         return http.singleRequest(request)
             .toCompletableFuture()
             .thenCompose { response ->
@@ -40,11 +39,10 @@ class EventClient(private val system: ActorSystem, private val http: Http, priva
 
     fun deleteEvent(userId: String, eventId: String): CompletableFuture<Done> {
         val request = HttpRequest.DELETE("$eventsUrl/events/users/${userId}/events/$eventId")
-//            .withHeaders(setOf(HttpHeader.parse("Content-Type", "application/json")))
         return http.singleRequest(request)
             .toCompletableFuture()
             .thenApply { response ->
-                if (response.status() == StatusCodes.OK) {
+                if (response.status() == StatusCodes.NO_CONTENT) {
                     Done.done()
                 } else {
                     throw IllegalStateException("Unexpected events response code ${response.status()}")
@@ -58,7 +56,6 @@ class EventClient(private val system: ActorSystem, private val http: Http, priva
         val request = HttpRequest.GET(
             "$eventsUrl/events/users/$userId/events?startDate=$fromFormatted&endDate=$toFormatted"
         )
-//            .withHeaders(setOf(HttpHeader.parse("Accept", "application/json")))
         return http.singleRequest(request)
             .toCompletableFuture()
             .thenCompose { response ->
