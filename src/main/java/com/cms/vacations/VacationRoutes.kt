@@ -2,6 +2,7 @@ package com.cms.vacations
 
 import akka.actor.ActorRef
 import akka.http.javadsl.marshallers.jackson.Jackson
+import akka.http.javadsl.model.ContentTypes
 import akka.http.javadsl.model.HttpEntity
 import akka.http.javadsl.model.HttpHeader
 import akka.http.javadsl.model.HttpResponse
@@ -110,6 +111,7 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
                     is DeleteVacationsUserNotFoundResult -> badRequest("User ${it.userId} not found")
                     is DeleteVacationsVacationsNotFoundResult -> badRequest("Vacation ${it.vacationsId} not found")
                     is DeleteVacationsDeletedResult -> HttpResponse.create()
+                        .addHeader(HttpHeader.parse("Content-Type", "application/json"))
                 }
             }.thenApply { complete(it) }
         return onComplete(result) { it.get() }
@@ -119,14 +121,16 @@ class VacationRoutes(private val userActorSupervisor: ActorRef) : AllDirectives(
         return HttpResponse.create()
             .withStatus(StatusCodes.BAD_REQUEST)
             .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-            .withEntity(message)
+            .addHeader(HttpHeader.parse("Content-Type", "application/json"))
+            .withEntity(ContentTypes.APPLICATION_JSON, message)
     }
 
     private fun created(message: String): HttpResponse {
         return HttpResponse.create()
             .withStatus(StatusCodes.CREATED)
             .addHeader(HttpHeader.parse("Access-Control-Allow-Origin", "*"))
-            .withEntity(message)
+            .addHeader(HttpHeader.parse("Content-Type", "application/json"))
+            .withEntity(ContentTypes.APPLICATION_JSON, message)
     }
 
     private fun getObjectMapper(): ObjectMapper {

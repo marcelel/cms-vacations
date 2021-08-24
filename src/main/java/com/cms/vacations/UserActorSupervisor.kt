@@ -5,8 +5,6 @@ import akka.actor.ActorRef
 import akka.actor.Props
 import akka.japi.pf.ReceiveBuilder
 import com.cms.vacations.messages.MessageEnvelope
-import com.cms.vacations.messages.VacationMessage
-import java.util.*
 
 class UserActorSupervisor(
     private val userRepository: UserRepository,
@@ -40,8 +38,6 @@ class UserActorSupervisor(
             .build()
     }
 
-    data class Message(val to: String = UUID.randomUUID().toString(), val vacationMessage: VacationMessage) :
-        SerializableMessage
 
     private fun handle(message: MessageEnvelope) {
         val loyaltyActor = context

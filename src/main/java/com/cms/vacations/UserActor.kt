@@ -158,7 +158,7 @@ class UserActor private constructor(
             vacationDaysTaken = user!!.vacationDaysTaken - vacation.vacationDays
         )
 
-        val result = eventService.deleteVacations(vacation.eventId)
+        val result = eventService.deleteVacations(user!!, vacation.eventId)
             .thenCompose { vacationRepository.delete(vacation) }
             .thenCompose { userRepository.update(user!!) }
             .thenCompose {

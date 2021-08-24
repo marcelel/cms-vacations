@@ -15,8 +15,8 @@ class MongoConfiguration {
             .applyConnectionString(ConnectionString("mongodb://localhost:27017"))
             .applyToConnectionPoolSettings { builder ->
                 builder
-                    .minSize(30)
-                    .maxSize(30)
+                    .minSize(20)
+                    .maxSize(20)
                     .maxConnectionIdleTime(0, TimeUnit.MILLISECONDS)
                     .maxConnectionLifeTime(0, TimeUnit.MILLISECONDS)
                     .maxWaitTime(2500, TimeUnit.MILLISECONDS)

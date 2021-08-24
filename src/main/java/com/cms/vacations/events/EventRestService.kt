@@ -21,8 +21,8 @@ class EventRestService(private val eventClient: EventClient) : EventService {
         return eventClient.createEvent(command)
     }
 
-    override fun deleteVacations(eventId: String): CompletableFuture<Done> {
-        return eventClient.deleteEvent(eventId)
+    override fun deleteVacations(user: User, eventId: String): CompletableFuture<Done> {
+        return eventClient.deleteEvent(user._id, eventId)
     }
 
     override fun canUserTakeVacations(

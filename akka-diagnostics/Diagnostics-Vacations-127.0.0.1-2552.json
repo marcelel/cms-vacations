@@ -1,23 +1,20 @@
 {
-  "start-time" : "2021-08-13T15:37:55.501",
+  "start-time" : "2021-08-24T22:41:07.752",
   "akka-version" : "2.6.15",
-  "akka-diagnostics-version" : "1.1.16",
-  "akka-http-version" : "10.2.2",
-  "alpakka-kafka-version" : "2.1.1",
-  "classpath" : "/Users/mlekston/IdeaProjects/cms/vacations/target/classes:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.32/kotlin-stdlib-1.4.32.jar:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.4.32/kotlin-stdlib-common-1.4.32.jar:/Users/mlekston/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-slf4j_2.13/2.6.15/akka-slf4j_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/scala-lang/scala-library/2.13.5/scala-library-2.13.5.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-actor_2.13/2.6.15/akka-actor_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/config/1.4.0/config-1.4.0.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/0.9.0/scala-java8-compat_2.13-0.9.0.jar:/Users/mlekston/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-stream_2.13/2.6.15/akka-stream_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-protobuf-v3_2.13/2.6.15/akka-protobuf-v3_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/reactivestreams/reactive-streams/1.0.3/reactive-streams-1.0.3.jar:/Users/mlekston/.m2/repository/com/typesafe/ssl-config-core_2.13/0.4.2/ssl-config-core_2.13-0.4.2.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http_2.13/10.2.2/akka-http_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-core_2.13/10.2.2/akka-http-core_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-parsing_2.13/10.2.2/akka-parsing_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/twitter/hpack/1.0.2/hpack-1.0.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-jackson_2.13/10.2.2/akka-http-jackson_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-spray-json_2.13/10.2.2/akka-http-spray-json_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/io/spray/spray-json_2.13/1.3.6/spray-json_2.13-1.3.6.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster_2.13/2.6.15/akka-cluster_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-remote_2.13/2.6.15/akka-remote_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-pki_2.13/2.6.15/akka-pki_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/hierynomus/asn-one/0.5.0/asn-one-0.5.0.jar:/Users/mlekston/.m2/repository/org/agrona/agrona/1.9.0/agrona-1.9.0.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster-sharding_2.13/2.6.15/akka-cluster-sharding_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-distributed-data_2.13/2.6.15/akka-distributed-data_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/lmdbjava/lmdbjava/0.7.0/lmdbjava-0.7.0.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-ffi/2.1.9/jnr-ffi-2.1.9.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-commons/5.0.3/asm-commons-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-util/5.0.3/asm-util-5.0.3.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-a64asm/1.0.0/jnr-a64asm-1.0.0.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-x86asm/1.0.2/jnr-x86asm-1.0.2.jar:/Users/mlekston/.m2/repository/com/github/jnr/jffi/1.2.18/jffi-1.2.18.jar:/Users/mlekston/.m2/repository/com/github/jnr/jffi/1.2.18/jffi-1.2.18-native.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-constants/0.9.12/jnr-constants-0.9.12.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-persistence_2.13/2.6.15/akka-persistence_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster-tools_2.13/2.6.15/akka-cluster-tools_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-stream-kafka_2.13/2.1.1/akka-stream-kafka_2.13-2.1.1.jar:/Users/mlekston/.m2/repository/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar:/Users/mlekston/.m2/repository/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar:/Users/mlekston/.m2/repository/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-collection-compat_2.13/2.4.3/scala-collection-compat_2.13-2.4.3.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/akka-stream-alpakka-mongodb_2.13/3.0.0/akka-stream-alpakka-mongodb_2.13-3.0.0.jar:/Users/mlekston/.m2/repository/org/mongodb/scala/mongo-scala-driver_2.13/4.1.1/mongo-scala-driver_2.13-4.1.1.jar:/Users/mlekston/.m2/repository/org/scala-lang/scala-reflect/2.13.1/scala-reflect-2.13.1.jar:/Users/mlekston/.m2/repository/org/mongodb/scala/mongo-scala-bson_2.13/4.1.1/mongo-scala-bson_2.13-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/bson/4.1.1/bson-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/mongodb-driver-reactivestreams/4.1.1/mongodb-driver-reactivestreams-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/mongodb-driver-core/4.1.1/mongodb-driver-core-4.1.1.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-serialization-jackson_2.13/2.6.15/akka-serialization-jackson_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.11.4/jackson-annotations-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.11.4/jackson-module-scala_2.13-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-paranamer/2.11.4/jackson-module-paranamer-2.11.4.jar:/Users/mlekston/.m2/repository/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.11.4/jackson-datatype-jdk8-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.11.4/jackson-datatype-jsr310-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.11.4/jackson-module-parameter-names-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.11.4/jackson-dataformat-cbor-2.11.4.jar:/Users/mlekston/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.11.4/jackson-dataformat-yaml-2.11.4.jar:/Users/mlekston/.m2/repository/org/yaml/snakeyaml/1.26/snakeyaml-1.26.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.11.4/jackson-databind-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.11.4/jackson-core-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.12.3/jackson-module-kotlin-2.12.3.jar:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.4.21/kotlin-reflect-1.4.21.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-coordination_2.13/2.6.15/akka-coordination_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/management/akka-management_2.13/1.0.9/akka-management_2.13-1.0.9.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/management/akka-management-cluster-http_2.13/1.0.9/akka-management-cluster-http_2.13-1.0.9.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/akka-diagnostics_2.13/1.1.16/akka-diagnostics_2.13-1.1.16.jar:/Users/mlekston/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-akka_2.13/2.16.1/cinnamon-akka_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-java/2.16.1/cinnamon-java-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-scala_2.13/2.16.1/cinnamon-scala_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-core_2.13/2.16.1/cinnamon-core_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-akka-http_2.13/2.16.1/cinnamon-akka-http_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-jvm-metrics-producer/2.16.1/cinnamon-jvm-metrics-producer-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-core-java/2.16.1/cinnamon-core-java-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-common/2.16.1/cinnamon-common-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-prometheus/2.16.1/cinnamon-prometheus-2.16.1.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient/0.8.0/simpleclient-0.8.0.jar:/Users/mlekston/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-prometheus-httpserver/2.16.1/cinnamon-prometheus-httpserver-2.16.1.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient_httpserver/0.8.0/simpleclient_httpserver-0.8.0.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient_common/0.8.0/simpleclient_common-0.8.0.jar:/Users/mlekston/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar:/Users/mlekston/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-launcher/1.7.0/junit-platform-launcher-1.7.0.jar:/Users/mlekston/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-engine/1.7.0/junit-platform-engine-1.7.0.jar:/Users/mlekston/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-commons/1.7.0/junit-platform-commons-1.7.0.jar:/Users/mlekston/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar:/Users/mlekston/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar",
+  "classpath" : "/Users/mlekston/IdeaProjects/cms/vacations/target/vacations-1.0-SNAPSHOT-allinone.jar",
   "configuration-warnings" : [],
   "system-metrics" : {
     "heap-init" : 268435456,
     "heap-max" : 4294967296,
-    "heap-used" : 149227520,
-    "heap-committed" : 322961408,
+    "heap-used" : 60260552,
+    "heap-committed" : 268435456,
     "os-processors" : 12,
     "mem-pool-0" : {
       "name" : "CodeHeap 'non-nmethods'",
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 5836800,
-      "used" : 1302656,
+      "used" : 1338496,
       "committed" : 2555904
     },
     "mem-pool-1" : {
@@ -25,56 +22,56 @@
       "type" : "Non-heap memory",
       "init" : 0,
       "max" : -1,
-      "used" : 75279776,
-      "committed" : 78589952
+      "used" : 65133488,
+      "committed" : 67420160
     },
     "mem-pool-2" : {
       "name" : "CodeHeap 'profiled nmethods'",
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 122908672,
-      "used" : 10481408,
-      "committed" : 10485760
+      "used" : 7821952,
+      "committed" : 7864320
     },
     "mem-pool-3" : {
       "name" : "Compressed Class Space",
       "type" : "Non-heap memory",
       "init" : 0,
       "max" : 1073741824,
-      "used" : 9630064,
-      "committed" : 11218944
+      "used" : 8121376,
+      "committed" : 9306112
     },
     "mem-pool-4" : {
       "name" : "G1 Eden Space",
       "type" : "Heap memory",
       "init" : 27262976,
       "max" : -1,
-      "used" : 131072000,
-      "committed" : 169869312
+      "used" : 46137344,
+      "committed" : 161480704
     },
     "mem-pool-5" : {
       "name" : "G1 Old Gen",
       "type" : "Heap memory",
       "init" : 241172480,
       "max" : 4294967296,
-      "used" : 8718336,
-      "committed" : 143654912
+      "used" : 6783176,
+      "committed" : 99614720
     },
     "mem-pool-6" : {
       "name" : "G1 Survivor Space",
       "type" : "Heap memory",
       "init" : 0,
       "max" : -1,
-      "used" : 9437184,
-      "committed" : 9437184
+      "used" : 7340032,
+      "committed" : 7340032
     },
     "mem-pool-7" : {
       "name" : "CodeHeap 'non-profiled nmethods'",
       "type" : "Non-heap memory",
       "init" : 2555904,
       "max" : 122912768,
-      "used" : 2729600,
-      "committed" : 2752512
+      "used" : 1962112,
+      "committed" : 2555904
     }
   },
   "configuration" : {
@@ -87,7 +84,6 @@
         },
         "cluster" : {
             "seed-nodes" : [
-                "akka://Vacations@127.0.0.1:2551",
                 "akka://Vacations@127.0.0.1:2552"
             ]
         },
@@ -102,9 +98,6 @@
             "cinnamon.akka.CinnamonActorInstrumentation",
             "cinnamon.akka.pattern.CinnamonAskPatternInstrumentation"
         ],
-        "kafka" : {
-            "version" : "2.1.1"
-        },
         "loggers" : [
             "akka.event.slf4j.Slf4jLogger"
         ],
@@ -112,7 +105,7 @@
         "loglevel" : "INFO",
         "management" : {
             "http" : {
-                "port" : "8559"
+                "port" : "8558"
             }
         },
         "remote" : {
@@ -327,7 +320,7 @@
             ],
             "http-server" : {
                 "host" : "0.0.0.0",
-                "port" : "9002"
+                "port" : "9001"
             }
         }
     },
@@ -346,13 +339,18 @@
     "ftp" : {},
     "gopherProxySet" : "false",
     "http" : {},
+    "intellij" : {
+        "debug" : {
+            "agent" : "true"
+        }
+    },
     "java" : {
         "awt" : {
             "graphicsenv" : "sun.awt.CGraphicsEnvironment",
             "printerjob" : "sun.lwawt.macosx.CPrinterJob"
         },
         "class" : {
-            "path" : "/Users/mlekston/IdeaProjects/cms/vacations/target/classes:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.4.32/kotlin-stdlib-1.4.32.jar:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.4.32/kotlin-stdlib-common-1.4.32.jar:/Users/mlekston/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-slf4j_2.13/2.6.15/akka-slf4j_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/scala-lang/scala-library/2.13.5/scala-library-2.13.5.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-actor_2.13/2.6.15/akka-actor_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/config/1.4.0/config-1.4.0.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/0.9.0/scala-java8-compat_2.13-0.9.0.jar:/Users/mlekston/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-stream_2.13/2.6.15/akka-stream_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-protobuf-v3_2.13/2.6.15/akka-protobuf-v3_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/reactivestreams/reactive-streams/1.0.3/reactive-streams-1.0.3.jar:/Users/mlekston/.m2/repository/com/typesafe/ssl-config-core_2.13/0.4.2/ssl-config-core_2.13-0.4.2.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http_2.13/10.2.2/akka-http_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-core_2.13/10.2.2/akka-http-core_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-parsing_2.13/10.2.2/akka-parsing_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/twitter/hpack/1.0.2/hpack-1.0.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-jackson_2.13/10.2.2/akka-http-jackson_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-http-spray-json_2.13/10.2.2/akka-http-spray-json_2.13-10.2.2.jar:/Users/mlekston/.m2/repository/io/spray/spray-json_2.13/1.3.6/spray-json_2.13-1.3.6.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster_2.13/2.6.15/akka-cluster_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-remote_2.13/2.6.15/akka-remote_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-pki_2.13/2.6.15/akka-pki_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/hierynomus/asn-one/0.5.0/asn-one-0.5.0.jar:/Users/mlekston/.m2/repository/org/agrona/agrona/1.9.0/agrona-1.9.0.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster-sharding_2.13/2.6.15/akka-cluster-sharding_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-distributed-data_2.13/2.6.15/akka-distributed-data_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/org/lmdbjava/lmdbjava/0.7.0/lmdbjava-0.7.0.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-ffi/2.1.9/jnr-ffi-2.1.9.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm/5.0.3/asm-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-commons/5.0.3/asm-commons-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-analysis/5.0.3/asm-analysis-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-tree/5.0.3/asm-tree-5.0.3.jar:/Users/mlekston/.m2/repository/org/ow2/asm/asm-util/5.0.3/asm-util-5.0.3.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-a64asm/1.0.0/jnr-a64asm-1.0.0.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-x86asm/1.0.2/jnr-x86asm-1.0.2.jar:/Users/mlekston/.m2/repository/com/github/jnr/jffi/1.2.18/jffi-1.2.18.jar:/Users/mlekston/.m2/repository/com/github/jnr/jffi/1.2.18/jffi-1.2.18-native.jar:/Users/mlekston/.m2/repository/com/github/jnr/jnr-constants/0.9.12/jnr-constants-0.9.12.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-persistence_2.13/2.6.15/akka-persistence_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-cluster-tools_2.13/2.6.15/akka-cluster-tools_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-stream-kafka_2.13/2.1.1/akka-stream-kafka_2.13-2.1.1.jar:/Users/mlekston/.m2/repository/org/apache/kafka/kafka-clients/2.7.0/kafka-clients-2.7.0.jar:/Users/mlekston/.m2/repository/com/github/luben/zstd-jni/1.4.5-6/zstd-jni-1.4.5-6.jar:/Users/mlekston/.m2/repository/org/xerial/snappy/snappy-java/1.1.7.7/snappy-java-1.1.7.7.jar:/Users/mlekston/.m2/repository/org/scala-lang/modules/scala-collection-compat_2.13/2.4.3/scala-collection-compat_2.13-2.4.3.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/akka-stream-alpakka-mongodb_2.13/3.0.0/akka-stream-alpakka-mongodb_2.13-3.0.0.jar:/Users/mlekston/.m2/repository/org/mongodb/scala/mongo-scala-driver_2.13/4.1.1/mongo-scala-driver_2.13-4.1.1.jar:/Users/mlekston/.m2/repository/org/scala-lang/scala-reflect/2.13.1/scala-reflect-2.13.1.jar:/Users/mlekston/.m2/repository/org/mongodb/scala/mongo-scala-bson_2.13/4.1.1/mongo-scala-bson_2.13-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/bson/4.1.1/bson-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/mongodb-driver-reactivestreams/4.1.1/mongodb-driver-reactivestreams-4.1.1.jar:/Users/mlekston/.m2/repository/org/mongodb/mongodb-driver-core/4.1.1/mongodb-driver-core-4.1.1.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-serialization-jackson_2.13/2.6.15/akka-serialization-jackson_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.11.4/jackson-annotations-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.11.4/jackson-module-scala_2.13-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-paranamer/2.11.4/jackson-module-paranamer-2.11.4.jar:/Users/mlekston/.m2/repository/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.11.4/jackson-datatype-jdk8-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.11.4/jackson-datatype-jsr310-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.11.4/jackson-module-parameter-names-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.11.4/jackson-dataformat-cbor-2.11.4.jar:/Users/mlekston/.m2/repository/org/lz4/lz4-java/1.7.1/lz4-java-1.7.1.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.11.4/jackson-dataformat-yaml-2.11.4.jar:/Users/mlekston/.m2/repository/org/yaml/snakeyaml/1.26/snakeyaml-1.26.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.11.4/jackson-databind-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.11.4/jackson-core-2.11.4.jar:/Users/mlekston/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.12.3/jackson-module-kotlin-2.12.3.jar:/Users/mlekston/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.4.21/kotlin-reflect-1.4.21.jar:/Users/mlekston/.m2/repository/com/typesafe/akka/akka-coordination_2.13/2.6.15/akka-coordination_2.13-2.6.15.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/management/akka-management_2.13/1.0.9/akka-management_2.13-1.0.9.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/management/akka-management-cluster-http_2.13/1.0.9/akka-management-cluster-http_2.13-1.0.9.jar:/Users/mlekston/.m2/repository/com/lightbend/akka/akka-diagnostics_2.13/1.1.16/akka-diagnostics_2.13-1.1.16.jar:/Users/mlekston/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-akka_2.13/2.16.1/cinnamon-akka_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-java/2.16.1/cinnamon-java-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-scala_2.13/2.16.1/cinnamon-scala_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-core_2.13/2.16.1/cinnamon-core_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-akka-http_2.13/2.16.1/cinnamon-akka-http_2.13-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-jvm-metrics-producer/2.16.1/cinnamon-jvm-metrics-producer-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-core-java/2.16.1/cinnamon-core-java-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-common/2.16.1/cinnamon-common-2.16.1.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-prometheus/2.16.1/cinnamon-prometheus-2.16.1.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient/0.8.0/simpleclient-0.8.0.jar:/Users/mlekston/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/Users/mlekston/.m2/repository/com/lightbend/cinnamon/cinnamon-prometheus-httpserver/2.16.1/cinnamon-prometheus-httpserver-2.16.1.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient_httpserver/0.8.0/simpleclient_httpserver-0.8.0.jar:/Users/mlekston/.m2/repository/io/prometheus/simpleclient_common/0.8.0/simpleclient_common-0.8.0.jar:/Users/mlekston/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar:/Users/mlekston/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-launcher/1.7.0/junit-platform-launcher-1.7.0.jar:/Users/mlekston/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-engine/1.7.0/junit-platform-engine-1.7.0.jar:/Users/mlekston/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar:/Users/mlekston/.m2/repository/org/junit/platform/junit-platform-commons/1.7.0/junit-platform-commons-1.7.0.jar:/Users/mlekston/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.7.0/junit-jupiter-engine-5.7.0.jar:/Users/mlekston/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.0/junit-jupiter-api-5.7.0.jar",
+            "path" : "/Users/mlekston/IdeaProjects/cms/vacations/target/vacations-1.0-SNAPSHOT-allinone.jar",
             "version" : "55.0"
         },
         "home" : "/usr/local/Cellar/openjdk@11/11.0.10/libexec/openjdk.jdk/Contents/Home",
@@ -390,6 +388,13 @@
             "version" : "11.0.10+9"
         }
     },
+    "jboss" : {
+        "modules" : {
+            "system" : {
+                "pkgs" : "com.intellij.rt"
+            }
+        }
+    },
     "jdk" : {
         "debug" : "release"
     },
@@ -399,7 +404,7 @@
     "os" : {
         "arch" : "x86_64",
         "name" : "Mac OS X",
-        "version" : "11.4"
+        "version" : "11.5.2"
     },
     "path" : {
         "separator" : ":"
@@ -425,7 +430,7 @@
             }
         },
         "java" : {
-            "command" : "com.cms.vacations.Main -Dakka.http.server.default-http-port=8001 -Dakka.remote.artery.canonical.port=2552 -Dakka.management.http.port=8559 -Dcinnamon.prometheus.http-server.port=9002",
+            "command" : "/Users/mlekston/IdeaProjects/cms/vacations/target/vacations-1.0-SNAPSHOT-allinone.jar",
             "launcher" : "SUN_STANDARD"
         },
         "jnu" : {

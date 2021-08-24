@@ -7,7 +7,8 @@ import akka.cluster.sharding.ClusterShardingSettings;
 import akka.http.javadsl.Http;
 import com.cms.vacations.activities.ActivitiesKafkaService;
 import com.cms.vacations.activities.KafkaProducerSettingsFactory;
-import com.cms.vacations.events.EventDummyService;
+import com.cms.vacations.events.EventClient;
+import com.cms.vacations.events.EventRestService;
 import com.cms.vacations.messages.VacationShardingMessageExtractor;
 import com.cms.vacations.mongo.MongoConfiguration;
 import com.cms.vacations.mongo.MongoDataStore;
@@ -63,7 +64,7 @@ class Main {
                 new MongoDataStore<>(system, "users", mongoDatabase, User.class);
         UserMongoRepository userRepository = new UserMongoRepository(usersDataStore);
 
-        EventDummyService eventService = new EventDummyService();
+        EventService eventService = new EventRestService(new EventClient(system, Http.get(system), "http://localhost:8000"));
 
         ActivitiesKafkaService activityService = new ActivitiesKafkaService(system, new KafkaProducerSettingsFactory(system).create(), "activities");
 
